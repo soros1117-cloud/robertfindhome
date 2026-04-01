@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>房仲成交全導航 · 成交心法 — 台灣房仲實戰系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #9A7B3A;
+    --gold-light: #B8963F;
+    --gold-dim: #7A6030;
+    --dark: #F5F1EA;
+    --dark-2: #EDE9E0;
+    --dark-3: #E4DFD4;
+    --dark-4: #D8D2C5;
+    --dark-5: #C8C1B2;
+    --text: #1A1814;
+    --text-muted: #4A4640;
+    --text-dim: #7A7468;
+    --serif: 'Noto Serif TC', serif;
+    --sans: 'Noto Sans TC', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    background: rgba(245,241,234,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-brand {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .nav-cta {
+    background: var(--gold);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 1.4rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 8rem 2rem 5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(154,123,58,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .hero-title span {
+    color: var(--gold);
+    display: block;
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto 3rem;
+    line-height: 1.9;
+  }
+  .hero-divider {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 0 auto 3rem;
+    opacity: 0.5;
+  }
+  .hero-features {
+    display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 3.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .hero-features span::before {
+    content: '—  ';
+    color: var(--gold);
+    opacity: 0.6;
+  }
+  .hero-price-block {
+    background: var(--dark-3);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 4px;
+    padding: 2.5rem 3.5rem;
+    display: inline-block;
+    margin-bottom: 3rem;
+    min-width: 320px;
+  }
+  .price-was {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-decoration: line-through;
+    margin-bottom: 0.3rem;
+  }
+  .price-main {
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .price-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .btn-line {
+    display: block;
+    background: #06C755;
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 1.1rem 3.5rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .btn-line:hover { background: #05b34c; transform: translateY(-1px); }
+  .btn-line:active { transform: translateY(0); }
+  .btn-sub {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 900px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+  }
+  .section-body {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.95;
+    max-width: 620px;
+  }
+
+  /* ── PAIN SECTION ── */
+  .pain { background: var(--dark-2); border-top: 1px solid var(--dark-5); border-bottom: 1px solid var(--dark-5); }
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5px;
+    margin-top: 3rem;
+    background: var(--dark-5);
+    border: 1.5px solid var(--dark-5);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .pain-item {
+    background: var(--dark-2);
+    padding: 2rem 1.8rem;
+  }
+  .pain-num {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--dark-5);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+  .pain-text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+  .pain-text strong { color: var(--text); font-weight: 500; }
+
+  /* ── MODULES ── */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    margin-top: 3.5rem;
+    background: var(--dark-5);
+    border: 1px solid var(--dark-5);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .module-card {
+    background: var(--dark-3);
+    padding: 2rem 1.8rem;
+    transition: background 0.2s;
+  }
+  .module-card:hover { background: var(--dark-4); }
+  .module-num {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--gold-dim);
+    margin-bottom: 0.7rem;
+  }
+  .module-name {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+  .module-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .module-tags {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    margin-top: 1.2rem;
+  }
+  .tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  /* ── WHO IS THIS FOR ── */
+  .for-section { background: var(--dark); }
+  .for-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  @media (max-width: 600px) { .for-grid { grid-template-columns: 1fr; } }
+  .for-col-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .for-list { list-style: none; }
+  .for-list li {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--dark-5);
+    line-height: 1.6;
+  }
+  .for-list li::before { content: '✓  '; color: var(--gold); }
+  .for-list.no li::before { content: '✗  '; color: var(--text-dim); }
+  .for-list.no li { color: var(--text-dim); }
+
+  /* ── CONTENTS ── */
+  .contents-section { background: var(--dark-2); border-top: 1px solid var(--dark-5); border-bottom: 1px solid var(--dark-5); }
+  .contents-list { margin-top: 2.5rem; }
+  .contents-item {
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--dark-5);
+  }
+  .contents-item:first-child { border-top: 1px solid var(--dark-5); }
+  .c-num {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-5);
+    min-width: 2.5rem;
+    line-height: 1.3;
+  }
+  .c-info {}
+  .c-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+  .c-detail {
+    font-size: 0.83rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testi-section { background: var(--dark); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .testi-card {
+    background: var(--dark-3);
+    border: 1px solid var(--dark-5);
+    border-radius: 4px;
+    padding: 1.8rem;
+  }
+  .testi-quote {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .testi-author {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--gold-dim);
+    letter-spacing: 0.06em;
+  }
+  .testi-role {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+  .stars {
+    color: var(--gold);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── FAQ ── */
+  .faq-section { background: var(--dark-2); border-top: 1px solid var(--dark-5); }
+  .faq-list { margin-top: 2.5rem; }
+  .faq-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--dark-5);
+  }
+  .faq-item:first-child { border-top: 1px solid var(--dark-5); }
+  .faq-q {
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .faq-q .arrow {
+    color: var(--gold);
+    font-size: 0.85rem;
+    transition: transform 0.2s;
+    min-width: 16px;
+    text-align: right;
+  }
+  .faq-a {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s;
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding-top: 0.9rem; }
+  .faq-item.open .arrow { transform: rotate(90deg); }
+
+  /* ── CTA FINAL ── */
+  .cta-final {
+    background: var(--dark-3);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 7rem 2rem;
+    text-align: center;
+  }
+  .cta-final .section-title { margin-bottom: 1.5rem; }
+  .cta-final .section-body { margin: 0 auto 3rem; text-align: center; }
+  .guarantee {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    background: var(--dark-4);
+    border: 1px solid var(--dark-5);
+    border-radius: 4px;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 1.5rem;
+    letter-spacing: 0.03em;
+  }
+  .guarantee strong { color: var(--text-muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--dark-5);
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    line-height: 2;
+  }
+
+  /* ── ORDER MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.85);
+    align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--dark-3);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 6px;
+    padding: 2.5rem;
+    width: 100%; max-width: 440px;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1.2rem;
+    background: none; border: none; cursor: pointer;
+    color: var(--text-dim); font-size: 1.2rem;
+  }
+  .modal-title {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .modal-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    font-family: var(--serif);
+    margin-bottom: 1.5rem;
+  }
+  .form-group { margin-bottom: 1.1rem; }
+  .form-label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+  .form-input {
+    width: 100%;
+    background: var(--dark-4);
+    border: 1px solid var(--dark-5);
+    border-radius: 3px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--gold-dim); }
+  .form-input::placeholder { color: var(--text-dim); }
+  .btn-submit {
+    width: 100%;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    border-radius: 3px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--gold-light); }
+  .modal-note {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 0.8rem;
+    line-height: 1.7;
+  }
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .success-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .success-msg h3 {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+  .success-msg p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.2rem; }
+    .hero { padding: 7rem 1.2rem 4rem; }
+    .hero-price-block { padding: 2rem 2rem; min-width: unset; width: 100%; max-width: 320px; }
+    section { padding: 4rem 1.2rem; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .for-grid { grid-template-columns: 1fr; }
+    .author-grid {
+      grid-template-columns: 1fr !important;
+      gap: 2rem !important;
+    }
+    .author-card {
+      position: static !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">成交心法 · 台灣房仲實戰系統</div>
+  <a class="nav-cta" href="https://line.me/ti/p/hjlkwFl7es" target="_blank">立即取得 →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">台灣房仲實戰系統 · 2026</div>
+  <h1 class="hero-title">
+    房仲成交<br>
+    <span>全導航</span>
+    成交心法
+  </h1>
+  <p class="hero-sub">從開發屋主、帶看設計、收斡時機到屋主議價<br>5大模組＋3大加碼，每個環節都有話說、有步驟跟</p>
+  <div class="hero-divider"></div>
+  <div class="hero-features">
+    <span>5 大核心模組</span>
+    <span>3 大加碼內容</span>
+    <span>20 個異議 Q&amp;A</span>
+    <span>逐字稿完整示範</span>
+  </div>
+  <div class="hero-price-block">
+    <div class="price-was">原價 NT$1,200</div>
+    <div class="price-main">NT$480</div>
+    <div class="price-note">早鳥優惠 · 限時 60 折 · LINE 告知轉帳後寄送 PDF</div>
+  </div>
+  <a class="btn-line" href="https://line.me/ti/p/hjlkwFl7es" target="_blank">加 LINE 購買 · NT$480</a>
+  <p class="btn-sub">加好友後告知「成交心法」→ 轉帳 → 10 分鐘內收到 PDF</p>
+</section>
+
+<!-- PAIN -->
+<section class="pain">
+  <div class="container">
+    <div class="section-label">你是不是也這樣</div>
+    <h2 class="section-title">新人最常走的四條冤枉路</h2>
+    <div class="pain-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+      <div class="pain-item">
+        <div class="pain-num">01</div>
+        <p class="pain-text"><strong>背了很多話術，還是不敢開口</strong><br>因為你不確定下一句該說什麼，也不知道屋主說這句話代表什麼意思。</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">02</div>
+        <p class="pain-text"><strong>帶看一直帶，但就是沒人出價</strong><br>帶看不是導覽。說的越多，買方越不動心。你需要的是問法，不是說法。</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">03</div>
+        <p class="pain-text"><strong>議價時夾在中間，兩邊都不開心</strong><br>傳話不是議價。真正的議價，是設計一條路讓屋主自己走到「現在成交最好」。</p>
+      </div>
+      <div class="pain-item">
+        <div class="pain-num">04</div>
+        <p class="pain-text"><strong>買方說「再想想」，你不知道怎麼接</strong><br>「再想想」背後有三種意思。不先辨別類型就開口，只會讓對方更遠。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section style="background: var(--dark);">
+  <div class="container">
+    <div class="section-label">手冊內容</div>
+    <h2 class="section-title">5 大核心模組<br>＋ 3 大加碼內容</h2>
+    <div class="modules-grid">
+      <div class="module-card">
+        <div class="module-num">MODULE 01</div>
+        <div class="module-name">開發屋主<br>讓陌生人願意跟你簽委託</div>
+        <div class="module-desc">心態校正＋三種開發腳本（掃街A / 電話B / 社群C）、已有仲介的標準接法、第一次接觸建立信任的四個具體動作。</div>
+        <div class="module-tags">
+          <span class="tag">掃街腳本</span>
+          <span class="tag">電話冷開發</span>
+          <span class="tag">社群私訊</span>
+          <span class="tag">信任四動作</span>
+        </div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 02</div>
+        <div class="module-name">帶看設計<br>讓買方在看屋時就動心</div>
+        <div class="module-desc">帶看前三問（動機／看屋量／決策者）、三層提問技術、黃金三分鐘評分法、「再看看」三種類型破解話術。</div>
+        <div class="module-tags">
+          <span class="tag">帶看前三問</span>
+          <span class="tag">三層提問</span>
+          <span class="tag">黃金三分鐘</span>
+          <span class="tag">再看看破解</span>
+        </div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 03</div>
+        <div class="module-name">收斡時機<br>讓出價變成自然的下一步</div>
+        <div class="module-desc">七個高意願身體語言訊號、三種收斡句型（引導型／假設成交型／時間壓力型）、價格太高五步驟框架、幫買方決定第一次出價策略。</div>
+        <div class="module-tags">
+          <span class="tag">高意願訊號</span>
+          <span class="tag">三種收斡句型</span>
+          <span class="tag">出價策略</span>
+        </div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 04</div>
+        <div class="module-name">屋主議價<br>讓屋主自己說服自己降價</div>
+        <div class="module-desc">三種心理偏差診斷（錨定／樂觀／損失趨避）、數據開場三句話結構、三個迂迴策略、當橋不當夾心餅乾的資訊過濾四原則。</div>
+        <div class="module-tags">
+          <span class="tag">心理偏差診斷</span>
+          <span class="tag">數據開場</span>
+          <span class="tag">迂迴策略</span>
+          <span class="tag">資訊過濾</span>
+        </div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 05</div>
+        <div class="module-name">30天啟動計劃<br>從零到第一筆成交的每日行動</div>
+        <div class="module-desc">四週行動框架（開發基礎→帶看量→收斡→成交）、每日具體清單、核心動作 vs 彈性動作說明、現實版一週範例、轉換率追蹤指標。</div>
+        <div class="module-tags">
+          <span class="tag">每日清單</span>
+          <span class="tag">四週框架</span>
+          <span class="tag">現實版說明</span>
+          <span class="tag">轉換率追蹤</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2px; background: var(--dark-3); border: 1px solid var(--dark-5); border-radius: 4px; overflow: hidden;">
+      <div style="background: var(--gold); padding: 0.6rem 1.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; color: #fff;">加碼內容 · BONUS</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--dark-5);">
+        <div style="background: var(--dark-3); padding: 1.8rem;">
+          <div class="module-num">加碼 01</div>
+          <div class="module-name">真實議價錄音還原</div>
+          <div class="module-desc">一次完整屋主議價過程逐字稿，含每個關鍵動作的解析。從開場、數據報告、屋主守價、到拿到底線，完整 6 個對話段落還原。</div>
+          <div class="module-tags"><span class="tag">逐字稿</span><span class="tag">動作解析</span></div>
+        </div>
+        <div style="background: var(--dark-3); padding: 1.8rem;">
+          <div class="module-num">加碼 02</div>
+          <div class="module-name">20個最難回答的異議</div>
+          <div class="module-desc">買方 10 題＋屋主 10 題，每題都有完整逐字稿示範怎麼接。「我再想想」「價格太貴」「我自己賣就好」⋯⋯全部有標準答法。</div>
+          <div class="module-tags"><span class="tag">買方 10 題</span><span class="tag">屋主 10 題</span></div>
+        </div>
+        <div style="background: var(--dark-3); padding: 1.8rem;">
+          <div class="module-num">加碼 03</div>
+          <div class="module-name">電話開發完整逐字稿</div>
+          <div class="module-desc">五種情境全覆蓋：標準開場、有興趣但猶豫、直接拒絕、已有仲介、無人接聽後簡訊跟進，含被拒絕後的每一句接話。</div>
+          <div class="module-tags"><span class="tag">五種情境</span><span class="tag">拒絕接話</span><span class="tag">簡訊範本</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IS THIS FOR -->
+<section class="for-section">
+  <div class="container">
+    <div class="section-label">適合對象</div>
+    <h2 class="section-title">這本手冊<br>適合你嗎？</h2>
+    <div class="for-grid">
+      <div>
+        <div class="for-col-title">這本手冊適合</div>
+        <ul class="for-list">
+          <li>入行 0–24 個月的新人業務</li>
+          <li>業績停滯、想系統化突破的老鳥</li>
+          <li>開發多但成交少、搞不清楚哪個環節卡關</li>
+          <li>想要有話術備忘錄、帶看清單可以直接用</li>
+          <li>需要一個 30 天可執行的行動計劃</li>
+        </ul>
+      </div>
+      <div>
+        <div class="for-col-title">這本手冊不適合</div>
+        <ul class="for-list no">
+          <li>想要「不勞而獲」的速成心態</li>
+          <li>完全沒有要執行、只是想看看</li>
+          <li>已有完整系統、業績穩定的資深仲介</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENTS DETAIL -->
+<section class="contents-section">
+  <div class="container">
+    <div class="section-label">手冊結構</div>
+    <h2 class="section-title">你拿到的<br>是什麼</h2>
+    <div class="contents-list">
+      <div class="contents-item">
+        <div class="c-num">29</div>
+        <div class="c-info">
+          <div class="c-name">頁完整手冊（PDF）</div>
+          <div class="c-detail">5 大核心模組＋3 大加碼，含心態校正、話術腳本、逐字稿、工具表格，可在電腦、手機、平板閱讀，也可自行列印。</div>
+        </div>
+      </div>
+      <div class="contents-item">
+        <div class="c-num">20</div>
+        <div class="c-info">
+          <div class="c-name">個異議 Q&amp;A 逐字稿</div>
+          <div class="c-detail">買方 10 題＋屋主 10 題，每題都有完整接話示範。「我再想想」「價格太貴」「我自己賣就好」，全部有答案。</div>
+        </div>
+      </div>
+      <div class="contents-item">
+        <div class="c-num">5</div>
+        <div class="c-info">
+          <div class="c-name">份話術速查卡</div>
+          <div class="c-detail">每個核心模組末尾有可單獨列印的速查卡，帶看前、打電話前快速複習，不用翻完整手冊。</div>
+        </div>
+      </div>
+      <div class="contents-item">
+        <div class="c-num">30</div>
+        <div class="c-info">
+          <div class="c-name">天每日行動清單</div>
+          <div class="c-detail">Day 1 到 Day 30 每天一個具體任務，含核心動作 vs 彈性動作說明，附現實版一週範例，不怕計劃趕不上變化。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section style="background: var(--dark-2); border-top: 1px solid var(--dark-5); border-bottom: 1px solid var(--dark-5);">
+  <div class="container">
+    <div class="section-label">關於這套系統的作者</div>
+    <div class="author-grid" style="display: grid; grid-template-columns: 200px 1fr; gap: 5rem; align-items: start;">
+
+      <div class="author-card" style="position: sticky; top: 6rem;">
+        <div style="background: var(--dark-4); border: 1px solid var(--dark-5); border-radius: 4px; padding: 1.8rem; text-align: center;">
+          <img src="author.png" alt="房仲阿樹" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; object-position: center top; border: 2px solid rgba(201,168,76,0.3); margin: 0 auto 1rem; display: block;">
+          <div style="font-family: var(--serif); font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem;">房仲阿樹</div>
+          <div style="font-size: 0.72rem; color: var(--gold-dim); letter-spacing: 0.06em; margin-bottom: 1.2rem;">林合樂（伸樹）</div>
+          <div style="font-size: 0.75rem; color: var(--text-dim); line-height: 1.8;">桃園八德 · 中壢</div>
+          <div style="margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--dark-5);">
+            <div style="font-size: 0.72rem; color: var(--gold); font-weight: 500;">0986-880-995</div>
+            <div style="font-size: 0.68rem; color: var(--text-dim); margin-top: 0.2rem;">同 LINE</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="section-title" style="margin-bottom: 2rem; font-size: clamp(1.6rem, 3vw, 2.2rem);">我不是年成交百筆的<br>超級業務員</h2>
+
+        <p class="section-body" style="margin-bottom: 1.5rem;">我沒有亮眼的業績數字可以告訴你。</p>
+        <p class="section-body" style="margin-bottom: 1.5rem;">但我有一件事：我把台灣房仲銷售流程裡每一個讓新人卡關的環節，拆解過一遍。</p>
+
+        <p class="section-body" style="margin-bottom: 1.5rem;">入行之後，我發現這個行業有一個奇怪的現象。公司訓練教你產品知識、教你法規、教你填合約。前輩告訴你「多打電話」、「多帶看」、「要積極」。</p>
+
+        <p class="section-body" style="margin-bottom: 0.5rem; color: var(--text-muted);">但沒有人告訴你：</p>
+
+        <div style="margin: 1.2rem 0 2rem; border-left: 2px solid rgba(201,168,76,0.3); padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.9rem;">
+          <p style="font-size: 0.95rem; color: var(--text); font-family: var(--serif); line-height: 1.7;">屋主開門，你腦子空白，下一句說什麼。</p>
+          <p style="font-size: 0.95rem; color: var(--text); font-family: var(--serif); line-height: 1.7;">帶看結束，買方說「再看看」，你怎麼接。</p>
+          <p style="font-size: 0.95rem; color: var(--text); font-family: var(--serif); line-height: 1.7;">斡旋單擺在桌上，你想開口，開口的那句話是什麼。</p>
+          <p style="font-size: 0.95rem; color: var(--text); font-family: var(--serif); line-height: 1.7;">屋主說「不降」，沉默三秒之後，你還有什麼牌。</p>
+        </div>
+
+        <p class="section-body" style="margin-bottom: 1.5rem;">這些才是真正決定你能不能成交的東西。但這些，沒有人系統性地教過。</p>
+        <p class="section-body" style="margin-bottom: 1.5rem;">所以我開始自己研究。研究每一個卡關環節背後的心理邏輯。研究為什麼有些話說出來屋主會點頭，有些話說出來他直接關門。研究買方說「再看看」的時候，他真正的意思是什麼。</p>
+        <p class="section-body" style="margin-bottom: 1.5rem;">然後把這些邏輯，整理成任何人都能直接使用的話術和步驟。</p>
+        <p class="section-body" style="margin-bottom: 1.5rem;">不是「要有同理心」這種廢話。是進門後的第一個問題說什麼、屋主說不降之後的三個迂迴方向是什麼、收斡開口的那句話用哪個版本。</p>
+
+        <p class="section-body" style="margin-bottom: 2.5rem; color: var(--text);">《成交心法》是我希望自己入行第一天就能拿到的東西。如果你現在正在走我走過的那段路——每天在帶看，但不確定自己在做對的事——這套系統是為你寫的。</p>
+
+        <div style="background: var(--dark-4); border: 1px solid rgba(201,168,76,0.2); border-left: 3px solid var(--gold); border-radius: 3px; padding: 1.5rem 1.8rem;">
+          <div style="font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.7rem;">一個承諾</div>
+          <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.9;">買了之後，如果你覺得這套系統對你沒有幫助，<strong style="color: var(--text);">7 天內全額退款，不需要任何理由。</strong></p>
+          <p style="font-size: 0.88rem; color: var(--text-dim); margin-top: 0.7rem; line-height: 1.8;">我不需要用業績數字說服你。我需要你自己讀完之後，覺得值得。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="container">
+    <div class="section-label">使用者回饋</div>
+    <h2 class="section-title">他們說了什麼</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">「整體做得很好，尤其分析買方的地方很有感。我覺得已經很不錯了，能適應大多情境。」</div>
+        <div class="testi-author">陳O恩 先生</div>
+        <div class="testi-role">基隆，入行 1 年多，卡關點：不知道如何逼斡</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">「簡單扼要，對於房仲小白能少走許多彎路。開發話術使用過，有禮貌通常能留下不錯的第一印象。」</div>
+        <div class="testi-author">鐘O哲 先生</div>
+        <div class="testi-role">基隆，入行 2 年，卡關點：銷售無法收到斡旋</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">「買方釋出的收斡訊號，讓我回想起來，我錯過了很多。這裡面有我未曾聽過的開發方式，會去嘗試看看效果。」</div>
+        <div class="testi-author">黃O熙 小姐</div>
+        <div class="testi-role">高雄，入行 4 年，卡關點：帶看有感但客戶出價很低</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">「對新手來說很容易上手。替屋主解決問題以及建立信任、不急著委託，確實是現在很缺少的心態。」</div>
+        <div class="testi-author">朱O柔 小姐</div>
+        <div class="testi-role">桃園藝文特區，入行 4 年，卡關點：找不到屋主、不願意委託</div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">「帶看的確認型與想像型問法非常有感。整體都有貼近實際狀況，大部分從業人員遇到的問題都是大同小異。」</div>
+        <div class="testi-author">Vincent 先生</div>
+        <div class="testi-role">桃園平鎮，入行 2 年半，卡關點：調店後委託量驟降</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="section-label">常見問題</div>
+    <h2 class="section-title">你可能想問的</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">購買後多久可以收到 PDF？<span class="arrow">›</span></div>
+        <div class="faq-a">加 LINE 後，確認收到您的款項，我們將在 30 分鐘內用 LINE 傳送檔案給您。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">這是實體書還是電子書？<span class="arrow">›</span></div>
+        <div class="faq-a">這是數位 PDF 檔案，購買後透過 LINE 寄送，無實體書。您可以在電腦、手機、平板閱讀，也可以自行列印。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">適合資深仲介嗎？<span class="arrow">›</span></div>
+        <div class="faq-a">這套系統是針對 0–24 個月的業務設計，但資深仲介如果想重新系統化自己的流程，也可以從中提取對應模組使用。整本手冊 18 頁，閱讀時間約 40–60 分鐘。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">付款方式有哪些？<span class="arrow">›</span></div>
+        <div class="faq-a">目前暫時支援 LINE Pay。若需其他付款方式請再用 LINE 詢問。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">可以退款嗎？<span class="arrow">›</span></div>
+        <div class="faq-a">如果你覺得這套系統對你沒有幫助，7 天內全額退款，不需要任何理由。LINE 告知即可，會直接處理。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-final">
+  <div class="container">
+    <div class="section-label">現在開始</div>
+    <h2 class="section-title" style="text-align:center;">480 元<br>取得《房仲成交全導航》完整系統</h2>
+    <p class="section-body" style="text-align:center; margin: 0 auto 3rem;">一筆成交的佣金，足夠買這本手冊幾百次。<br>問題從來不是值不值，是你今天要不要開始。</p>
+    <div class="hero-price-block" style="display:block; max-width:340px; margin: 0 auto 1.5rem; text-align:center;">
+      <div class="price-was">原價 NT$1,200</div>
+      <div class="price-main">NT$480</div>
+      <div class="price-note">早鳥限時優惠 · 加 LINE 後轉帳即可取得</div>
+    </div>
+    <a class="btn-line" href="https://line.me/ti/p/hjlkwFl7es" target="_blank" style="max-width:320px; display:block; margin: 0 auto 1rem;">加 LINE 購買 · NT$480</a>
+    <div style="text-align:center;">
+      <span class="guarantee">
+        <span>🔒</span>
+        <span><strong>7 天不滿意全額退款</strong> · 加好友 → 轉帳 → 10 分鐘收到 PDF</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>房仲成交全導航 · 成交心法 — 台灣房仲實戰系統 · 作者：房仲阿樹 林合樂（伸樹）</div>
+  <div style="margin-top:0.4rem;">如有問題請聯繫：0986-880-995（同 LINE）</div>
+  <div style="margin-top:0.4rem; font-size:0.68rem; color: var(--text-dim);">© 2026 版權所有 · 購買後 7 天內不滿意全額退款</div>
+</footer>
+
+
+<script>
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
