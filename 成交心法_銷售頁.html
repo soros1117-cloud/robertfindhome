@@ -606,6 +606,26 @@
   <div class="hero-price-block">
     <div class="price-was">9月起恢復原價 NT$1,200</div>
   </div>
+  <div id="countdown-hero" style="max-width:320px; margin: 0 auto 1rem; background: rgba(154,123,58,0.08); border: 1px solid rgba(154,123,58,0.25); border-radius: 4px; padding: 0.8rem 1rem; text-align:center;">
+    <div style="font-size: 0.68rem; color: var(--gold-dim); letter-spacing: 0.12em; margin-bottom: 0.4rem;">早鳥特價剩餘時間</div>
+    <div style="display:flex; justify-content:center; gap: 1rem; align-items:baseline;">
+      <div style="text-align:center;">
+        <span id="hero-days" style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--gold);">--</span>
+        <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">天</div>
+      </div>
+      <span style="font-size:1.2rem; color:var(--gold-dim); margin-bottom:4px;">:</span>
+      <div style="text-align:center;">
+        <span id="hero-hours" style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--gold);">--</span>
+        <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">時</div>
+      </div>
+      <span style="font-size:1.2rem; color:var(--gold-dim); margin-bottom:4px;">:</span>
+      <div style="text-align:center;">
+        <span id="hero-mins" style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--gold);">--</span>
+        <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">分</div>
+      </div>
+    </div>
+    <div style="font-size:0.7rem; color:var(--text-dim); margin-top:0.5rem;">2026/8/31 截止 · 9月起恢復 NT$1,200</div>
+  </div>
   <a class="btn-line" href="https://line.me/ti/p/hjlkwFl7es" target="_blank">加 LINE 購買 · NT$480</a>
   <p class="btn-sub">加好友 → 告知「成交心法」→ 轉帳後截圖給我，我馬上確認寄出 PDF</p>
 </section>
@@ -968,6 +988,26 @@
     <div class="hero-price-block" style="display:block; max-width:340px; margin: 0 auto 1.5rem; text-align:center;">
       <div class="price-was">9月起恢復原價 NT$1,200</div>
     </div>
+    <div id="countdown-cta" style="max-width:320px; margin: 0 auto 1rem; background: rgba(154,123,58,0.08); border: 1px solid rgba(154,123,58,0.25); border-radius: 4px; padding: 0.8rem 1rem; text-align:center;">
+      <div style="font-size: 0.68rem; color: var(--gold-dim); letter-spacing: 0.12em; margin-bottom: 0.4rem;">早鳥特價剩餘時間</div>
+      <div style="display:flex; justify-content:center; gap: 1rem; align-items:baseline;">
+        <div style="text-align:center;">
+          <span id="cta-days" style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--gold);">--</span>
+          <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">天</div>
+        </div>
+        <span style="font-size:1.2rem; color:var(--gold-dim); margin-bottom:4px;">:</span>
+        <div style="text-align:center;">
+          <span id="cta-hours" style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--gold);">--</span>
+          <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">時</div>
+        </div>
+        <span style="font-size:1.2rem; color:var(--gold-dim); margin-bottom:4px;">:</span>
+        <div style="text-align:center;">
+          <span id="cta-mins" style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--gold);">--</span>
+          <div style="font-size:0.65rem; color:var(--text-dim); margin-top:2px;">分</div>
+        </div>
+      </div>
+      <div style="font-size:0.7rem; color:var(--text-dim); margin-top:0.5rem;">2026/8/31 截止 · 9月起恢復 NT$1,200</div>
+    </div>
     <a class="btn-line" href="https://line.me/ti/p/hjlkwFl7es" target="_blank" style="max-width:320px; display:block; margin: 0 auto 1rem;">加 LINE 購買 · NT$480</a>
     <div style="text-align:center;">
       <span class="guarantee">
@@ -987,7 +1027,35 @@
 
 
 <script>
-function toggleFaq(el) {
+function updateCountdown() {
+  const deadline = new Date('2026-08-31T23:59:59+08:00');
+  const now = new Date();
+  const diff = deadline - now;
+
+  if (diff <= 0) {
+    ['hero-days','hero-hours','hero-mins','cta-days','cta-hours','cta-mins'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '0';
+    });
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+  const pad = n => String(n).padStart(2, '0');
+  ['hero','cta'].forEach(prefix => {
+    const d = document.getElementById(prefix+'-days');
+    const h = document.getElementById(prefix+'-hours');
+    const m = document.getElementById(prefix+'-mins');
+    if (d) d.textContent = days;
+    if (h) h.textContent = pad(hours);
+    if (m) m.textContent = pad(mins);
+  });
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
   const item = el.parentElement;
   const isOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
