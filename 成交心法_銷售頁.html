@@ -1027,6 +1027,7 @@
 
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 function updateCountdown() {
   const deadline = new Date('2026-08-31T23:59:59+08:00');
   const now = new Date();
@@ -1056,6 +1057,7 @@ function updateCountdown() {
 }
 updateCountdown();
 setInterval(updateCountdown, 60000);
+});
   const item = el.parentElement;
   const isOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
